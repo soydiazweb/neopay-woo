@@ -1,0 +1,84 @@
+/* NeoPay - checkout */
+fieldset.neopay-card-form {
+	border: 0;
+	padding: 0;
+	margin: 1em 0 0;
+	min-width: 0;
+}
+
+#wc-neopay_woo-cc-form .form-row select,
+#wc-neopay_woo-cc-form .form-row input {
+	width: 100%;
+	max-width: 100%;
+	box-sizing: border-box;
+}
+
+.neopay-card-form .form-row input,
+.neopay-card-form .form-row select,
+.neopay-blocks-form input,
+.neopay-blocks-form select {
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.neopay-test-banner {
+	padding: 6px 10px;
+	background: #fff8e5;
+	border-left: 4px solid #dba617;
+	font-size: 13px;
+}
+
+.neopay-test-cards {
+	margin: 0 0 12px;
+	font-size: 13px;
+}
+
+.neopay-test-cards ul {
+	margin: 6px 0 0 18px;
+}
+
+.neopay-brands {
+	display: flex;
+	gap: 8px;
+	margin: 10px 0 0;
+}
+
+.neopay-brands img {
+	height: 28px;
+	width: auto;
+}
+
+.neopay-note {
+	display: block;
+	margin-top: 4px;
+	opacity: .8;
+}
+
+.neopay-blocks-row {
+	display: flex;
+	flex-direction: column;
+	margin: 0 0 12px;
+}
+
+.neopay-blocks-row label {
+	margin-bottom: 4px;
+	font-size: .9em;
+}
+
+.neopay-blocks-row input,
+.neopay-blocks-row select {
+	padding: 10px 12px;
+	border: 1px solid #8c8f94;
+	border-radius: 4px;
+	font-size: 1em;
+}
+
+.neopay-blocks-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 12px;
+}
+
+.neopay-voucher-table th {
+	width: 45%;
+}

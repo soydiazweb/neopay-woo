@@ -1,0 +1,57 @@
+/* NeoPay - administracion */
+table.neopay-summary {
+	margin: 0 0 12px;
+}
+
+table.neopay-summary th {
+	width: 220px;
+	text-align: left;
+}
+
+table.neopay-summary code,
+table.neopay-history code {
+	background: transparent;
+	padding: 0;
+	font-size: 12px;
+}
+
+table.neopay-history td,
+table.neopay-logs td {
+	font-size: 12px;
+	vertical-align: top;
+}
+
+table.neopay-history pre,
+pre.neopay-json {
+	max-width: 520px;
+	max-height: 360px;
+	overflow: auto;
+	white-space: pre-wrap;
+	word-break: break-all;
+	background: #f6f7f7;
+	padding: 8px;
+	font-size: 11px;
+}
+
+pre.neopay-json {
+	max-width: none;
+}
+
+tr.neopay-ok td:first-child {
+	box-shadow: inset 3px 0 0 #00a32a;
+}
+
+tr.neopay-error td:first-child {
+	box-shadow: inset 3px 0 0 #d63638;
+}
+
+.neopay-log-filters {
+	margin: 12px 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+}
+
+.neopay-actions .button {
+	margin: 0 4px 4px 0;
+}
