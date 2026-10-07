@@ -35,7 +35,7 @@ class NeoPay_Woo_3DS {
 	 */
 	public function __construct() {
 		add_action( 'woocommerce_api_neopay_woo', array( $this, 'route' ) );
-		add_action( 'before_woocommerce_pay', array( $this, 'show_failure_on_pay_page' ) );
+		add_action( 'before_woocommerce_pay', array( $this, 'show_failure_on_pay_page' ), 5 );
 	}
 
 	/**
@@ -369,17 +369,49 @@ class NeoPay_Woo_3DS {
 	 * --------------------------------------------------------------- */
 
 	/**
-	 * URL tras un rechazo: pagina "pagar pedido" para reintentar.
+	 * URL a la que vuelve el cliente cuando el pago no se completa.
+	 *
+	 * Ademas deja el motivo como aviso de WooCommerce en la sesion, para que se
+	 * muestre en cualquier pagina a la que llegue el cliente (checkout o "Pagar
+	 * pedido"), aunque la tienda lo redirija.
 	 *
 	 * @param WC_Order $order Pedido.
 	 * @return string
 	 */
 	protected function failure_url( $order ) {
+		$this->queue_failure_notice( $order );
 		return add_query_arg( 'neopay_failed', '1', $order->get_checkout_payment_url() );
 	}
 
 	/**
-	 * Muestra el motivo del rechazo en la pagina de pago.
+	 * Motivo del rechazo para el cliente.
+	 *
+	 * @param WC_Order $order Pedido.
+	 * @return string
+	 */
+	protected function failure_message( $order ) {
+		$message = (string) $order->get_meta( '_neopay_last_error' );
+		return $message ? $message : __( 'Su pago no pudo ser procesado. Intente nuevamente.', 'neopay-woo' );
+	}
+
+	/**
+	 * Guarda el motivo del rechazo como aviso de WooCommerce (una sola vez).
+	 *
+	 * @param WC_Order $order Pedido.
+	 */
+	protected function queue_failure_notice( $order ) {
+		if ( ! function_exists( 'wc_add_notice' ) || ! WC()->session ) {
+			return;
+		}
+		$message = $this->failure_message( $order );
+		if ( ! wc_has_notice( $message, 'error' ) ) {
+			wc_add_notice( $message, 'error' );
+		}
+	}
+
+	/**
+	 * Muestra el motivo del rechazo en la pagina de pago si no llego como aviso
+	 * de sesion (por ejemplo, si el cliente abre el enlace en otro navegador).
 	 */
 	public function show_failure_on_pay_page() {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -387,11 +419,14 @@ class NeoPay_Woo_3DS {
 			return;
 		}
 		$order = wc_get_order( absint( get_query_var( 'order-pay' ) ) );
-		if ( ! $order ) {
+		if ( ! $order || $order->is_paid() ) {
 			return;
 		}
-		$message = (string) $order->get_meta( '_neopay_last_error' );
-		wc_print_notice( $message ? $message : __( 'Su pago no pudo ser procesado. Intente nuevamente.', 'neopay-woo' ), 'error' );
+		$message = $this->failure_message( $order );
+		if ( function_exists( 'wc_has_notice' ) && WC()->session && wc_has_notice( $message, 'error' ) ) {
+			return; // WooCommerce lo imprime con el resto de avisos.
+		}
+		wc_print_notice( $message, 'error' );
 	}
 
 	/**
