@@ -149,7 +149,9 @@ class NeoPay_Woo_Order_Admin {
 			return;
 		}
 		$missing = array();
-		foreach ( array( 'BillTo', 'ShipTo' ) as $group ) {
+		$groups = 'no' === $order->get_meta( '_neopay_ship_to_sent' ) ? array( 'BillTo' ) : array( 'BillTo', 'ShipTo' );
+
+		foreach ( $groups as $group ) {
 			foreach ( NeoPay_Woo_Address::api_fields() as $api ) {
 				if ( ! isset( $sources[ $group . '.' . $api ] ) ) {
 					$missing[] = $group . '.' . $api;

@@ -188,8 +188,8 @@ class NeoPay_Woo_API {
 		$body['Card']['Cvv2']           = (string) $card['cvv'];
 		$body['Amount']['AmountTrans']  = NeoPay_Woo_Helper::to_minor( $order->get_total() );
 		$body['BillTo']                 = array_merge( $body['BillTo'], array_intersect_key( $bill_to, $body['BillTo'] ) );
-		// NOTA NEONET (confirmar): ShipTo se envia con los datos de entrega del
-		// pedido (antes viajaba vacio).
+		// ShipTo: datos de entrega solo con el ajuste "Enviar datos de entrega";
+		// si no, viaja vacio (ver NeoPay_Woo_Address::ship_to).
 		$body['ShipTo']                 = array_merge( $body['ShipTo'], array_intersect_key( $ship_to, $body['ShipTo'] ) );
 		$body['PayerAuthentication']    = array(
 			'Step'        => '1',

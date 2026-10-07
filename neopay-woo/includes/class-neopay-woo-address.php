@@ -16,6 +16,9 @@
  * NOTA NEONET (confirmar): que el API acepte BillTo/ShipTo con campos vacios
  * cuando la tienda no pide ese dato (por ejemplo, codigo postal).
  *
+ * ShipTo solo se llena con el ajuste "Enviar datos de entrega"; si no, viaja
+ * vacio (comercios sin ShipTo habilitado lo rechazan con datos).
+ *
  * @package NeoPay_Woo
  */
 
@@ -115,7 +118,24 @@ class NeoPay_Woo_Address {
 	 * @return array
 	 */
 	public function ship_to( $order, &$sources = array() ) {
+		if ( ! $this->sends_ship_to() ) {
+			$empty = array_fill_keys( array_keys( self::$fields ), '' );
+			return apply_filters( 'neopay_woo_ship_to', $empty, $order, $sources );
+		}
+
 		return $this->resolve( $order, 'shipping', $sources );
+	}
+
+	/**
+	 * Si se envian los datos de entrega (ajuste "Enviar datos de entrega").
+	 *
+	 * Por defecto no: NeoNet rechaza ShipTo con datos en comercios que no lo
+	 * tienen habilitado ("CAMPO SHIPTO ... INVALIDO").
+	 *
+	 * @return bool
+	 */
+	public function sends_ship_to() {
+		return 'yes' === ( $this->settings['send_ship_to'] ?? 'no' );
 	}
 
 	/**

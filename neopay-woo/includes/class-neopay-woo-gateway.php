@@ -211,6 +211,13 @@ class NeoPay_Woo_Gateway extends WC_Payment_Gateway {
 					'type'        => 'title',
 					'description' => __( 'Para BillTo (facturacion) y ShipTo (entrega) se usan primero los campos estandar de WooCommerce. Si un dato esta vacio se busca en los campos personalizados indicados abajo y, si se activa la deteccion, en los campos personalizados del pedido o del cliente. Si no aparece en ningun lado se envia vacio. El origen de cada dato queda en el pedido.', 'neopay-woo' ),
 				),
+				'send_ship_to'            => array(
+					'title'       => __( 'Enviar datos de entrega (ShipTo)', 'neopay-woo' ),
+					'type'        => 'checkbox',
+					'label'       => __( 'Enviar a NeoNet la direccion de entrega del pedido', 'neopay-woo' ),
+					'default'     => 'no',
+					'description' => __( 'Desactivado: ShipTo viaja vacio. Activelo solo si NeoNet habilito ShipTo para su comercio; si no, NeoNet rechaza el pago con "CAMPO SHIPTO ... INVALIDO".', 'neopay-woo' ),
+				),
 				'detect_custom_fields'    => array(
 					'title'   => __( 'Deteccion automatica', 'neopay-woo' ),
 					'type'    => 'checkbox',
@@ -710,6 +717,7 @@ class NeoPay_Woo_Gateway extends WC_Payment_Gateway {
 		$bill_to = $this->address()->bill_to( $order, $sources );
 		$ship_to = $this->address()->ship_to( $order, $sources );
 		$order->update_meta_data( '_neopay_address_sources', $sources );
+		$order->update_meta_data( '_neopay_ship_to_sent', $this->address()->sends_ship_to() ? 'yes' : 'no' );
 		$order->save();
 
 		$return_url = NeoPay_Woo_3DS::url( 'acs', $order );
