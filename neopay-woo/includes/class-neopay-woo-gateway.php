@@ -218,6 +218,12 @@ class NeoPay_Woo_Gateway extends WC_Payment_Gateway {
 					'default'     => 'no',
 					'description' => __( 'Desactivado: ShipTo viaja vacio. Activelo solo si NeoNet habilito ShipTo para su comercio; si no, NeoNet rechaza el pago con "CAMPO SHIPTO ... INVALIDO".', 'neopay-woo' ),
 				),
+				'default_postcode'        => array(
+					'title'       => __( 'Codigo postal por defecto', 'neopay-woo' ),
+					'type'        => 'text',
+					'default'     => '01001',
+					'description' => __( 'NeoNet exige el codigo postal ("PostalCode IS REQUIRED"). Se usa solo si el pedido no trae uno. Ejemplo: 01001 (Ciudad de Guatemala).', 'neopay-woo' ),
+				),
 				'detect_custom_fields'    => array(
 					'title'   => __( 'Deteccion automatica', 'neopay-woo' ),
 					'type'    => 'checkbox',

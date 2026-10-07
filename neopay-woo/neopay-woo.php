@@ -3,7 +3,7 @@
  * Plugin Name:          NeoPay para WooCommerce
  * Plugin URI:           https://www.soydiaz.com
  * Description:          Pasarela NeoNet NeoPay para WooCommerce por API REST con 3-D Secure (DDC + Step-Up): ambientes de pruebas y produccion, NeoCuotas, reversa automatica, anulacion al cancelar el pedido y comprobante de pago. Guarda el detalle de cada transaccion en el pedido y un log enmascarado (nunca la tarjeta completa).
- * Version:              1.0.1
+ * Version:              1.0.2
  * Author:               Jonathan Diaz
  * Author URI:           https://www.soydiaz.com
  * License:              GPL-2.0-or-later
@@ -20,7 +20,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'NEOPAY_WOO_VERSION', '1.0.1' );
+define( 'NEOPAY_WOO_VERSION', '1.0.2' );
 define( 'NEOPAY_WOO_FILE', __FILE__ );
 define( 'NEOPAY_WOO_PATH', plugin_dir_path( __FILE__ ) );
 define( 'NEOPAY_WOO_URL', plugin_dir_url( __FILE__ ) );

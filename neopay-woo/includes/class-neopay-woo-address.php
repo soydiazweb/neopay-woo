@@ -192,6 +192,15 @@ class NeoPay_Woo_Address {
 				}
 			}
 
+			// 5: codigo postal por defecto (ajuste). NeoNet exige PostalCode y
+			// muchas tiendas de Guatemala no lo piden en el checkout.
+			if ( '' === $value && 'PostalCode' === $api ) {
+				$value = $this->clean( $this->settings['default_postcode'] ?? '', $def );
+				if ( '' !== $value ) {
+					$source = 'ajuste:default_postcode';
+				}
+			}
+
 			$out[ $api ] = $value;
 			if ( '' !== $source ) {
 				$sources[ $prefix . '.' . $api ] = $source;
